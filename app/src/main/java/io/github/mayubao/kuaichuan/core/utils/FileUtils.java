@@ -73,8 +73,8 @@ public class FileUtils {
     public static List<FileInfo> getSpecificTypeFiles(Context context, String[] extension){
         List<FileInfo> fileInfoList = new ArrayList<FileInfo>();
 
-        //内存卡文件的Uri
-        Uri fileUri= MediaStore.Files.getContentUri("external");
+        //内存卡文件的Uri MediaProvider
+        Uri fileUri = MediaStore.Files.getContentUri("external");//MediaStore.Files.getContentUri("external");
         //筛选列，这里只筛选了：文件路径和含后缀的文件名
         String[] projection=new String[]{
                 MediaStore.Files.FileColumns.DATA, MediaStore.Files.FileColumns.TITLE
