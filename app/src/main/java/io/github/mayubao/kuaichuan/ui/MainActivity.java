@@ -13,9 +13,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.util.Log;
 
 import io.github.mayubao.kuaichuan.R;
 import io.github.mayubao.kuaichuan.utils.NavigatorUtils;
+
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.AdListener;
 
 /**
  * Created by mayubao on 2016/11/28.
@@ -26,6 +32,10 @@ public class MainActivity extends AppCompatActivity{
     RecyclerView rv;
 
     String[] strArray;
+
+    private final String adMobId = "ca-app-pub-3940256099942544/6300978111";
+
+    private AdView mAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +72,51 @@ public class MainActivity extends AppCompatActivity{
         rv.setItemAnimator(new DefaultItemAnimator());
         rv.setAdapter(new MyRecycleViewAdapter());
 
+        MobileAds.initialize(this, adMobId);
+        addAdMobBanner();
+
     }
+
+    private void addAdMobBanner() {
+        mAdView = (AdView) findViewById(R.id.adView);
+        Log.d("Ads", "onAdLoaded");
+        mAdView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                // Code to be executed when an ad finishes loading.
+                Log.d("Ads", "onAdLoaded");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                Log.d("Ads", "onAdFailedToLoad");
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+                Log.d("Ads", "onAdOpened");
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+                Log.d("Ads", "onAdLeftApplication");
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when when the user is about to return
+                // to the app after tapping on an ad.
+                Log.d("Ads", "onAdClosed");
+            }
+        });
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+    }
+
 
     public Context getContext(){
         return this;
